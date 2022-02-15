@@ -15,7 +15,7 @@
         </div>
 
         <div class="row">
-        <div class="col-4">
+        <div class="col-6">
 <?php 
 $usuario = $_POST['usuario'];
 $password = $_POST['password'];
