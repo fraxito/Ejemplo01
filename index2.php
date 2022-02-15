@@ -17,10 +17,42 @@
         <div class="row">
         <div class="col-6">
 <?php 
+//función para realizar la conexión a la BBDD
+function conectaBBDD(){
+    $direccion =  "localhost";
+    $usuario_BBDD = "pruebasTEST";
+    $password_BBDD = "r56gK8igbnkR4yCE";
+    $nombre_BBDD = "test";
+    $puerto = "3306";
+
+    $conexion = new mysqli( $direccion, 
+                            $usuario_BBDD, 
+                            $password_BBDD, 
+                            $nombre_BBDD,
+                            $puerto);
+    $consulta = $conexion -> query("SET NAMES UTF8");
+    return $conexion;
+}
+
 $usuario = $_POST['usuario'];
 $password = $_POST['password'];
 echo "El nombre de usuario que has escrito es ".$usuario."<br>";
 echo "y la contraseña que has escrito es ".$password."<br>";
+
+$conexion = conectaBBDD();
+$consultaPrueba = $conexion -> query("SELECT * FROM usuariosAlmacen");
+$numeroFilas = $consultaPrueba -> num_rows;
+for ($i=0; $i < $numeroFilas; $i++){
+    $r = $consultaPrueba -> fetch_array(); //leo una fila del resultado de la query
+    echo 'usuario: '.$r['nombre'].' '.$r['DNI'].'<br>'; 
+
+
+}
+
+
+
+
+
 ?>
             </div>
         </div>
