@@ -40,14 +40,59 @@ echo "El nombre de usuario que has escrito es ".$usuario."<br>";
 echo "y la contraseña que has escrito es ".$password."<br>";
 
 $conexion = conectaBBDD();
-$consultaPrueba = $conexion -> query("SELECT * FROM usuariosAlmacen");
-$numeroFilas = $consultaPrueba -> num_rows;
-for ($i=0; $i < $numeroFilas; $i++){
-    $r = $consultaPrueba -> fetch_array(); //leo una fila del resultado de la query
-    echo 'usuario: '.$r['nombre'].' '.$r['DNI'].'<br>'; 
 
-
+$consultaBienHecha = $conexion -> prepare("SELECT  email , sexo FROM 
+             usuariosalmacen WHERE `DNI`= ? AND `clave`= ? ");
+$consultaBienHecha -> bind_param("ss", $usuario, $password);
+$consultaBienHecha -> execute();
+$consultaBienHecha -> store_result();
+$consultaBienHecha -> bind_result( $email, $sexo );
+$consultaBienHecha -> fetch();
+if ($consultaBienHecha -> num_rows > 0){
+    echo ('
+            <div class="alert alert-success" role="alert">
+                USUARIO Y CONTRASEÑA CORRECTOS, 
+                el email es '.$email.'
+            </div>
+    ');
 }
+else{
+    echo ('
+            <div class="alert alert-danger" role="alert">
+                USUARIO Y/O CONTRASEÑA INCORRECTOS
+            </div>
+    ');    
+}
+
+// $consultaPrueba = $conexion -> query("SELECT * FROM usuariosAlmacen");
+// $numeroFilas = $consultaPrueba -> num_rows;
+// for ($i=0; $i < $numeroFilas; $i++){
+//     $r = $consultaPrueba -> fetch_array(); //leo una fila del resultado de la query
+//     echo 'usuario: '.$r['nombre'].' '.$r['DNI'].'<br>'; 
+// }
+
+// $consultaMalHecha = $conexion -> query("SELECT * FROM 
+//             usuariosalmacen WHERE `DNI`='$usuario' AND `clave`='$password'");
+            
+// if ($consultaMalHecha -> num_rows > 0){
+//     echo ('
+//             <div class="alert alert-success" role="alert">
+//                 USUARIO Y CONTRASEÑA CORRECTOS
+//             </div>
+//     ');
+// }
+// else{
+//     echo ('
+//             <div class="alert alert-danger" role="alert">
+//                 USUARIO Y/O CONTRASEÑA INCORRECTOS
+//             </div>
+//     ');    
+// }
+
+
+
+
+
 
 
 
