@@ -16,6 +16,7 @@
             <div class="col">
                 <table class="table table-striped  table-hover  table-bordered">
                     <?php
+                    
                     require_once 'src/autoload.php';
                     include('misfunciones.php');
                     $conexion = conectaBBDD();
